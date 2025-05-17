@@ -1,0 +1,23 @@
+
+footer {
+    background-color: #003366;
+    color: white;
+    
+    text-align: center;
+    padding: 50px;
+    font-size: 0.9em;
+    margin-top: auto;
+}
+ol {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 10px;
+}
+ol li  figcaption{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}

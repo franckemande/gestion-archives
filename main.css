@@ -1,0 +1,16 @@
+.ai {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-top: 10px;
+}
+body{
+    display: block;
+    display: flex;
+}
+
+
+h2{
+    color: #ec8600;
+}
