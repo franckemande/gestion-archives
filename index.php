@@ -26,7 +26,7 @@
   <ul>
     <li><a href="form2.php">🏠 Espace d’archives</a></li>
     <li><a href="document.php">📄 Documents</a></li>
-    <li><a href="ajout_doc.php">➕ Ajouter</a></li>
+    <li><a href="inscription.php">➕ Ajouter</a></li>
     <li><a href="services.php">🔧 Services</a></li>
     <li><a href="contact.php">✉️ Contact</a></li>
   </ul>

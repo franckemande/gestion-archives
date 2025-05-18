@@ -5,13 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="operation.css">
     <title>Gestion des Utilisateurs</title>
 </head>
 <body>
-
-<h1>Gestion des Utilisateurs</h1>
-
-<!-- Formulaire pour ajouter un utilisateur -->
+<h1 class="page-title"><i class="fa-solid fa-users-gear"></i> Gestion des Utilisateurs</h1>  
+<div class="form-grid">
+  <div class="form-card">
+   <!-- Formulaire pour ajouter un utilisateur -->
 <h2>Ajouter un utilisateur</h2>
 <form method="POST">
     <label for="prenom">Prénom :</label>
@@ -29,7 +30,10 @@
     <button type="submit" name="action" value="ajout">Ajouter</button>
 </form>
 
-<!-- Formulaire pour supprimer un utilisateur -->
+  </div>
+
+  <div class="form-card">
+    <!-- Formulaire pour supprimer un utilisateur -->
 <h2>Supprimer un utilisateur</h2>
 <form method="POST">
     <label for="id_supprimer">ID de l'utilisateur :</label>
@@ -37,8 +41,10 @@
     <br>
     <button type="submit" name="action" value="suppression">Supprimer</button>
 </form>
+  </div>
 
-<!-- Formulaire pour modifier un utilisateur -->
+  <div class="form-card">
+    <!-- Formulaire pour modifier un utilisateur -->
 <h2>Modifier un utilisateur</h2>
 <form method="POST">
     <label for="id_modifier">ID de l'utilisateur :</label>
@@ -58,12 +64,14 @@
     <br>
     <button type="submit" name="action" value="modification">Modifier</button>
 </form>
+  </div>
 
-<!-- Formulaire pour rechercher un utilisateur -->
+  <div class="form-card">
+    <!-- Formulaire pour rechercher un utilisateur -->
 <h2>Rechercher un utilisateur</h2>
 <form method="POST">
     <label for="search_field">Critère de recherche :</label>
-    <select name="search_field" id="search_field" required>
+    <select class="search" name="search_field" id="search_field" required>
         <option value="id">ID</option>
         <option value="prenom">Prénom</option>
         <option value="nom">Nom</option>
@@ -76,6 +84,16 @@
     <button type="submit" name="action" value="recherche">Rechercher</button>
 </form>
 
+  </div>
+</div>
+
+
+
+
+
+
+
+
 <?php
 // Activer l'affichage des erreurs
 error_reporting(E_ALL);
@@ -85,6 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
     $action = $_POST['action'];
 
     try {
+
+
         // Connexion à la base de données
         $pdo = new PDO('mysql:host=localhost;dbname=monny', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -103,7 +123,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
             $stmt->bindParam(':age', $age);
             $stmt->execute();
 
-            echo "<p style='color: green;'>Utilisateur ajouté avec succès !</p>";
+            ?><div class="r1"><?php echo "<p style='color: green;'>Utilisateur ajouté avec succès !</p>";?></div> <?php
+           
 
         } elseif ($action === "suppression") {
             // Suppression d'un utilisateur
@@ -113,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
-            echo "<p style='color: green;'>Utilisateur avec ID $id supprimé avec succès !</p>";
+            ?><div class="r1"><?php echo "<p style='color: green;'>Utilisateur avec ID $id supprimé avec succès !</p>";?></div> <?php
 
         } elseif ($action === "modification") {
             // Modification d'un utilisateur
@@ -143,9 +164,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute($params);
 
-                echo "<p style='color: green;'>Utilisateur avec ID $id modifié avec succès !</p>";
+                ?><div class="r1"><?php echo "<p style='color: green;'>Utilisateur avec ID $id modifié avec succès !</p>";?></div> <?php
             } else {
-                echo "<p style='color: red;'>Aucun champ à modifier.</p>";
+                ?><div class="r1"><?php echo "<p style='color: red;'>Aucun champ à modifier.</p>";?></div> <?php
             }
 
         } elseif ($action === "recherche") {
@@ -161,6 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if ($results) {
+                ?><div class="r2"><?php
                 echo "<h2>Résultats de la recherche :</h2>";
                 echo "<table border='1'>
                         <tr>
@@ -179,17 +201,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
                             <td>{$row['email']}</td>
                             <td>{$row['age']}</td>
                             <td>{$row['date_inscription']}</td>
-                          </tr>";
+                          </tr>";?></div> <?php
                 }
-                echo "</table>";
+                ?><div class="r2"><?php echo "</table>"; ?></div> <?php
             } else {
-                echo "<p>Aucun résultat trouvé.</p>";
+                ?><div class="r1"><?php echo "<p>Aucun résultat trouvé.</p>"; ?></div> <?php
             }
         } else {
-            echo "<p style='color: red;'>Action non reconnue.</p>";
+            ?><div class="r2"><?php echo "<p style='color: red;'>Action non reconnue.</p>"; ?></div><?php 
         }
     } catch (PDOException $e) {
-        echo "<p style='color: red;'>Erreur SQL : " . $e->getMessage() . "</p>";
+        ?><div class="r1"><?php echo "<p style='color: red;'>Erreur SQL : " . $e->getMessage() . "</p>"; ?><div class="r1"><?php
     }
 }
 ?>

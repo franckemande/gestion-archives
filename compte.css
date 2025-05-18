@@ -1,38 +1,58 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-}
-body{
-    display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
-    background-color: antiquewhite;
-}
-
-section{
-    background-color: #555;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-
-}
-section h1{
+.registration-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #e3f2fd, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .registration-container h2 {
     text-align: center;
-}
-form{
-    display: flex;
-    flex-direction: column;
-}
-form input{
-    margin: 5px 0;
-    padding: 5px 5px;
-    outline: 0;
-    border: 1px solid #000;
-    border-radius: 6px;
-}
-form input[type='submit']{
-    background-color: green;
-    border:0;
-}
+    color: #2c3e50;
+    margin-bottom: 25px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #34495e;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #fdfdfd;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  button i {
+    margin-right: 8px;
+  }
+  

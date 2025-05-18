@@ -4,46 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="operation.css">
     <title>Liste des utilisateurs</title>
 </head>
 <body>
 <?php
-// Configuration de la connexion à la base de données
-$host = 'localhost'; // Adresse du serveur MySQL
-$user = 'root'; // Nom d'utilisateur MySQL
-$database = 'monny'; // Nom de la base de données
+// Activer l'affichage des erreurs
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Création de la connexion MySQL
-$conn = new mysqli($host, $user, '', $database); // Pas de mot de passe
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
+    $action = $_POST['action'];
 
-// Vérification de la connexion
-if ($conn->connect_error) {
-    die("Échec de la connexion : " . $conn->connect_error); // Affiche un message d'erreur si la connexion échoue
-}
+    try {
 
-// Vérification si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Échapper les caractères spéciaux pour éviter les injections SQL
-    $query = $conn->real_escape_string($_POST['query']);
-    
-    // Requête SQL pour rechercher des utilisateurs par nom
-    $sql = "SELECT * FROM utilisateurs WHERE nom LIKE '%$query%'";
-    $result = $conn->query($sql); // Exécution de la requête
 
-    // Vérification des résultats
-    if ($result->num_rows > 0) {
-        echo "<h1>Résultats de la recherche</h1>"; // Titre des résultats
-        // Parcours des résultats et affichage
-        while ($row = $result->fetch_assoc()) {
-            echo "ID: " . $row["id"] . " - Nom: " . $row["nom"] . " - Email: " . $row["email"] . "<br>";
+        // Connexion à la base de données
+        $pdo = new PDO('mysql:host=localhost;dbname=monny', 'root', '');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        if ($action === "recherche") {
+            // Recherche d'un utilisateur
+            $search_field = $_POST['search_field'];
+            $search_value = '%' . $_POST['search_value'] . '%';
+
+            $sql = "SELECT * FROM utilisateurs WHERE $search_field LIKE :search_value";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':search_value', $search_value);
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($results) {
+                ?><div class="r2"><?php
+                echo "<h2>Résultats de la recherche :</h2>";
+                echo "<table border='1'>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Âge</th>
+                            <th>Date d'inscription</th>
+                        </tr>";
+                foreach ($results as $row) {
+                    echo "<tr>
+                            <td>{$row['id']}</td>
+                            <td>{$row['prenom']}</td>
+                            <td>{$row['nom']}</td>
+                            <td>{$row['email']}</td>
+                            <td>{$row['age']}</td>
+                            <td>{$row['date_inscription']}</td>
+                          </tr>";?></div> <?php
+                }
+                ?><div class="r2"><?php echo "</table>"; ?></div> <?php
+            } else {
+                ?><div class="r1"><?php echo "<p>Aucun résultat trouvé.</p>"; ?></div> <?php
+            }
+        } else {
+            ?><div class="r2"><?php echo "<p style='color: red;'>Action non reconnue.</p>"; ?></div><?php 
         }
-    } else {
-        echo "Aucun résultat trouvé."; // Message si aucun utilisateur n'est trouvé
+    } catch (PDOException $e) {
+        ?><div class="r1"><?php echo "<p style='color: red;'>Erreur SQL : " . $e->getMessage() . "</p>"; ?><div class="r1"><?php
     }
 }
-
-// Fermeture de la connexion
-$conn->close();
 ?>
+
 </body>
 </html>
+
